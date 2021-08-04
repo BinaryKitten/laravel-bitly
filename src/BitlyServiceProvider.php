@@ -24,7 +24,12 @@ class BitlyServiceProvider extends ServiceProvider implements DeferrableProvider
     public function register()
     {
         $this->app->singleton('bitly', function () {
-            return new BitlyClient(new Client(), $this->app->make('config')->get('bitly.accesstoken', ''));
+            $config = $this->app->make('config');
+            return new BitlyClient(
+                new Client(),
+                $config->get('bitly.accesstoken', ''),
+                $config->get('bitly.custom_domain', null)
+            );
         });
 
         $this->app->bind(BitlyClient::class, 'bitly');
