@@ -33,7 +33,7 @@ class BitlyClient
      * @param ClientInterface $client
      * @param string          $token
      */
-    public function __construct(ClientInterface $client, $token)
+    public function __construct(ClientInterface $client, string $token)
     {
         $this->client = $client;
         $this->token  = $token;
@@ -44,6 +44,7 @@ class BitlyClient
      *
      * @throws \Shivella\Bitly\Exceptions\AccessDeniedException
      * @throws \Shivella\Bitly\Exceptions\InvalidResponseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return string shorten URL.
      */
@@ -56,8 +57,13 @@ class BitlyClient
             'Content-Type'  => 'application/json',
         ];
 
+        $requestData = ['long_url' => $url];
+        if (config('bitly.custom_domain') !== null) {
+            $requestData['domain'] = config('bitly.custom_domain');
+        }
+
         try {
-            $request = new Request('POST', $requestUrl, $header, json_encode(['long_url' => $url]));
+            $request = new Request('POST', $requestUrl, $header, json_encode($requestData));
 
             $response = $this->client->send($request);
         } catch (RequestException $e) {
