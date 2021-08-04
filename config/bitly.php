@@ -18,4 +18,13 @@ return [
     */
 
     'accesstoken' => env('BITLY_ACCESS_TOKEN', ''),
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Domain
+    |--------------------------------------------------------------------------
+    |
+    | set this if used. Allows for the bitly custom domain usage.
+    */
+    'custom_domain' => env('BITLY_CUSOM_DOMAIN', null),
 ];
