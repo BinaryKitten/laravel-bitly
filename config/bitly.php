@@ -26,5 +26,5 @@ return [
     |
     | set this if used. Allows for the bitly custom domain usage.
     */
-    'custom_domain' => env('BITLY_CUSOM_DOMAIN', null),
+    'custom_domain' => env('BITLY_CUSTOM_DOMAIN', null),
 ];
