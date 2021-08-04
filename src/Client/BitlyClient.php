@@ -28,15 +28,21 @@ class BitlyClient
 
     /** @var string $token */
     private $token;
+    /**
+     * @var string|null
+     */
+    private $customDomain;
 
     /**
      * @param ClientInterface $client
      * @param string          $token
+     * @param string|null     $customDomain
      */
-    public function __construct(ClientInterface $client, string $token)
+    public function __construct(ClientInterface $client, string $token, ?string $customDomain = null)
     {
         $this->client = $client;
         $this->token  = $token;
+        $this->customDomain = $customDomain;
     }
 
     /**
@@ -58,8 +64,8 @@ class BitlyClient
         ];
 
         $requestData = ['long_url' => $url];
-        if (config('bitly.custom_domain') !== null) {
-            $requestData['domain'] = config('bitly.custom_domain');
+        if ($this->customDomain !== null) {
+            $requestData['domain'] = $this->customDomain;
         }
 
         try {
